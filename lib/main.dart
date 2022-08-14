@@ -21,28 +21,53 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+  var _totalScore = 0;
   final _questions = const [
     {
       'questionText': 'What\'s your favorite color?',
-      'answers': ['Brown', 'Blue', 'Red', 'Green']
+      'answers': [
+        {'text': 'Brown', 'score': 10},
+        {'text': 'White', 'score': 1},
+        {'text': 'Red', 'score': 6},
+        {'text': 'Green', 'score': 3}
+      ]
     },
     {
       'questionText': 'What\'s your favorite animal?',
-      'answers': ['Tiger', 'Dog', 'Gorilla', 'Snake']
+      'answers': [
+        {'text': 'Tiger', 'score': 8},
+        {'text': 'Dog', 'score': 2},
+        {'text': 'Gorilla', 'score': 10},
+        {'text': 'Snake', 'score': 1},
+      ]
     },
     {
       'questionText': 'What is your favorite martial arts',
-      'answers': ['Jui Jitsu', 'Kali', 'Muay Thai', 'Boxing']
+      'answers': [
+        {'text': 'Jui Jitsu', 'score': 2},
+        {'text': 'Kali', 'score': 11},
+        {'text': 'Muay Thai', 'score': 4},
+        {'text': 'Boxing', 'score': 3},
+      ]
     },
   ];
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _totalScore += score;
+
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
     if (_questionIndex < _questions.length) {
       print('We have more questions');
     }
+  }
+
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
   }
 
   @override
@@ -58,7 +83,7 @@ class _MyAppState extends State<MyApp> {
                 questionIndex: _questionIndex,
                 questions: _questions,
               )
-            : Result(),
+            : Result(_totalScore, _resetQuiz),
       ),
     );
   }
